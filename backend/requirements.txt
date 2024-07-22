@@ -1,0 +1,14 @@
+django
+djangorestframework
+django-cors-headers
+django-crispy-forms
+django-allauth
+django-mathfilters
+django-ckeditor
+django-ckeditor-5
+django-taggit
+djangorestframework-simplejwt
+shortuuid
+
+
+# to install all of this use this "pip install -r requirements.txt"
