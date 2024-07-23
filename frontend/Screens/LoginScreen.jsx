@@ -1,4 +1,4 @@
-// import React, { useState } from "react";
+// import React, { useEffect, useState } from "react";
 // import {
 //   StyleSheet,
 //   SafeAreaView,
@@ -7,14 +7,43 @@
 //   Text,
 //   TouchableOpacity,
 //   TextInput,
+//   ActivityIndicator,
 // } from "react-native";
 // import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// import { API_URL, useAuth } from "../App/context/AuthContext";
+// import axios from "axios";
 
-// export default function Example() {
-//   const [form, setForm] = useState({
-//     email: "",
-//     password: "",
-//   });
+// export default function LoginScreen({ navigation }) {
+//   const [loading, setLoading] = useState(false);
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('')
+//   const { onLogin } = useAuth();
+
+//   const handleSignIn = () => {
+//     setLoading(true);
+//     // Simulate an API call
+//     setTimeout(() => {
+//       setLoading(false);
+//       navigation.navigate("home");
+//     }, 2000);
+//   };
+
+//   useEffect(() => {
+//     const testCall = async() => {
+//       const result = await axios.get(`${API_URL}/users`);
+//       console.log(`file:LoginScreen.jsx:16 ~testCall ~result:`,result)
+//     }
+//     testCall();
+//   },[])
+
+
+//   const login = async () => {
+//     const result = await onLogin | (email, password);
+//     if (result && result.error) {
+//       alert(result.msg);
+//     }
+//   }
+
 //   return (
 //     <SafeAreaView style={{ flex: 1, backgroundColor: "#e8ecf4" }}>
 //       <View style={styles.container}>
@@ -34,7 +63,7 @@
 //             </Text>
 
 //             <Text style={styles.subtitle}>
-//               Get access to your portfolio and more
+//               Get access to your Stock Master Pro. Get In
 //             </Text>
 //           </View>
 
@@ -47,11 +76,11 @@
 //                 autoCorrect={false}
 //                 clearButtonMode="while-editing"
 //                 keyboardType="email-address"
-//                 onChangeText={(email) => setForm({ ...form, email })}
-//                 placeholder="john@example.com"
+//                 onChangeText={(email) => setEmail({ email })}
+//                 value={email}
+//                 placeholder="josue@gmail.com"
 //                 placeholderTextColor="#6b7280"
 //                 style={styles.inputControl}
-//                 value={form.email}
 //               />
 //             </View>
 
@@ -61,40 +90,47 @@
 //               <TextInput
 //                 autoCorrect={false}
 //                 clearButtonMode="while-editing"
-//                 onChangeText={(password) => setForm({ ...form, password })}
+//                 onChangeText={(password) => setPassword({ password })}
 //                 placeholder="********"
 //                 placeholderTextColor="#6b7280"
 //                 style={styles.inputControl}
 //                 secureTextEntry={true}
-//                 value={form.password}
+//                 value={password}
 //               />
 //             </View>
 
 //             <View style={styles.formAction}>
-//               <TouchableOpacity
-//                 onPress={() => {
-//                   // handle onPress
-//                 }}>
+//               <TouchableOpacity onPress={login}>
 //                 <View style={styles.btn}>
 //                   <Text style={styles.btnText}>Sign in</Text>
 //                 </View>
 //               </TouchableOpacity>
 //             </View>
 
-//             <Text style={styles.formLink}>Forgot password?</Text>
+//             <Text
+//               onPress={() => navigation.navigate("CreateAccount")}
+//               style={styles.formLink}>
+//               Forgot password?
+//             </Text>
 //           </View>
 //         </KeyboardAwareScrollView>
 
 //         <TouchableOpacity
-//           onPress={() => {
-//             // handle link
-//           }}
+//           onPress={() => navigation.navigate("CreateAccount")}
 //           style={{ marginTop: "auto" }}>
 //           <Text style={styles.formFooter}>
 //             Don't have an account?{" "}
 //             <Text style={{ textDecorationLine: "underline" }}>Sign up</Text>
 //           </Text>
 //         </TouchableOpacity>
+
+//         {loading && (
+//           <ActivityIndicator
+//             size="large"
+//             color="#075eec"
+//             style={styles.loading}
+//           />
+//         )}
 //       </View>
 //     </SafeAreaView>
 //   );
@@ -107,6 +143,7 @@
 //     flexGrow: 1,
 //     flexShrink: 1,
 //     flexBasis: 0,
+//     fontFamily: "Roboto",
 //   },
 //   title: {
 //     fontSize: 31,
@@ -118,8 +155,8 @@
 //     fontSize: 15,
 //     fontWeight: "500",
 //     color: "#929292",
+//     width: 300,
 //   },
-//   /** Header */
 //   header: {
 //     alignItems: "center",
 //     justifyContent: "center",
@@ -131,7 +168,6 @@
 //     alignSelf: "center",
 //     marginBottom: 36,
 //   },
-//   /** Form */
 //   form: {
 //     marginBottom: 24,
 //     paddingHorizontal: 24,
@@ -156,7 +192,6 @@
 //     textAlign: "center",
 //     letterSpacing: 0.15,
 //   },
-//   /** Input */
 //   input: {
 //     marginBottom: 16,
 //   },
@@ -178,7 +213,6 @@
 //     borderColor: "#C9D3DB",
 //     borderStyle: "solid",
 //   },
-//   /** Button */
 //   btn: {
 //     flexDirection: "row",
 //     alignItems: "center",
@@ -196,10 +230,16 @@
 //     fontWeight: "600",
 //     color: "#fff",
 //   },
+//   loading: {
+//     position: "absolute",
+//     left: "50%",
+//     top: "50%",
+//     transform: [{ translateX: -25 }, { translateY: -25 }],
+//   },
 // });
 
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -211,25 +251,36 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { API_URL, useAuth } from "../App/context/AuthContext";
+import axios from "axios";
 
 export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { onLogin } = useAuth();
 
-  const handleSignIn = () => {
+  useEffect(() => {
+    const testCall = async () => {
+      const result = await axios.get(`${API_URL}/users`);
+      console.log("API call result:", result);
+    };
+    testCall();
+  }, []);
+
+  const login = async () => {
     setLoading(true);
-    // Simulate an API call
-    setTimeout(() => {
-      setLoading(false);
-      navigation.navigate("CreateAccount");
-    }, 2000);
+    const result = await onLogin(email, password);
+    setLoading(false);
+    if (result && result.error) {
+      alert(result.msg);
+    } else {
+      navigation.navigate("Home");
+    }
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#e8ecf4" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#1B1A25" }}>
       <View style={styles.container}>
         <KeyboardAwareScrollView>
           <View style={styles.header}>
@@ -237,61 +288,63 @@ export default function LoginScreen({ navigation }) {
               alt="App Logo"
               resizeMode="contain"
               style={styles.headerImg}
-              source={{
-                uri: "https://assets.withfra.me/SignIn.2.png",
-              }}
+              source={require("../assets/logo.png")}
             />
-
             <Text style={styles.title}>
-              Sign in to <Text style={{ color: "#075eec" }}>MyApp</Text>
+              Sign in to{" "}
+              <Text style={{ color: "#C500B1", fontSize: 30,fontWeight:'800' }}>SMP</Text>
             </Text>
-
             <Text style={styles.subtitle}>
-              Get access to your portfolio and more
+              Get access to your
+            </Text>
+            <Text style={styles.subtitle}>
+              Stock Master Pro. Get In
             </Text>
           </View>
 
           <View style={styles.form}>
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Email address</Text>
-
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
                 clearButtonMode="while-editing"
                 keyboardType="email-address"
-                onChangeText={(email) => setForm({ ...form, email })}
-                placeholder="john@example.com"
+                onChangeText={setEmail}
+                value={email}
+                placeholder="josue@gmail.com"
                 placeholderTextColor="#6b7280"
                 style={styles.inputControl}
-                value={form.email}
               />
             </View>
 
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Password</Text>
-
               <TextInput
                 autoCorrect={false}
                 clearButtonMode="while-editing"
-                onChangeText={(password) => setForm({ ...form, password })}
+                onChangeText={setPassword}
                 placeholder="********"
                 placeholderTextColor="#6b7280"
                 style={styles.inputControl}
                 secureTextEntry={true}
-                value={form.password}
+                value={password}
               />
             </View>
 
             <View style={styles.formAction}>
-              <TouchableOpacity onPress={handleSignIn}>
+              <TouchableOpacity onPress={login}>
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>Sign in</Text>
                 </View>
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.formLink}>Forgot password?</Text>
+            <Text
+              onPress={() => navigation.navigate("CreateAccount")}
+              style={styles.formLink}>
+              Forgot password?
+            </Text>
           </View>
         </KeyboardAwareScrollView>
 
@@ -323,17 +376,20 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 0,
+    fontFamily: "Roboto",
   },
   title: {
     fontSize: 31,
     fontWeight: "700",
-    color: "#1D2A32",
+    color: "#d9d9d9",
     marginBottom: 6,
   },
   subtitle: {
     fontSize: 15,
     fontWeight: "500",
     color: "#929292",
+    width: 300,
+    text
   },
   header: {
     alignItems: "center",
