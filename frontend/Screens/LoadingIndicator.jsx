@@ -6,7 +6,7 @@ export default function LoadingIndicator() {
     <View style={styles.container}>
       <ActivityIndicator
         size="large"
-        color="#075eec"
+        color="#C500B1"
       />
     </View>
   );
@@ -19,3 +19,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+

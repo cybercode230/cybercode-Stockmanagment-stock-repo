@@ -19,7 +19,7 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'user_type', 'is_staff', 'is_active')
+    list_display = ('username', 'email', 'user_type', 'is_staff', 'is_active','password')
     search_fields = ('username', 'email')
     list_filter = ('user_type', 'is_staff', 'is_active')
     fieldsets = (

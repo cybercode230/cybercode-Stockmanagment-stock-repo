@@ -32,6 +32,17 @@ class RegisterSerializer(serializers.ModelSerializer):
             'access': str(refresh.access_token),
         }
 
+# class RegisterView(generics.CreateAPIView):
+#     queryset = CustomUser.objects.all()
+#     serializer_class = RegisterSerializer
+#     permission_classes = [permissions.AllowAny]
+
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user_data = serializer.save()
+#         headers = self.get_success_headers(serializer.data)
+#         return Response(user_data, status=status.HTTP_201_CREATED, headers=headers)
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
