@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password) => {
     try {
-      return await axios.post(`${API_URL}/users`, { email, password });
+      return await axios.post(`${API_URL}/register`, { email, password,user_type });
     } catch (e) {
       return { error: true, msg: e.response.data.msg };
     }
@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const result = await axios.post(`${API_URL}/users`, { email, password });
+      const result = await axios.post(`${API_URL}/login`, { email, password });
       const user = result.data.user; 
 
       setAuthState({
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }) => {
 
       // Navigate based on user_type
       if (user.user_type === "business_owner") {
-        navigation.navigate("BusinessOwnerHome"); // Replace with your screen name
+        navigation.navigate("BusinessOwnerHome"); 
       } else if (user.user_type === "stock_manager") {
         navigation.navigate("StockManagerHome"); // Replace with your screen name
       }

@@ -14,14 +14,14 @@ import { useAuth } from "../App/context/AuthContext";
 
 export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const { onLogin } = useAuth();
 
   const login = async () => {
     setLoading(true);
     try {
-      const result = await onLogin(email, password);
+      const result = await onLogin(username, password);
 
       if (result && !result.error) {
         switch (result.user_type) {
@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation }) {
             navigation.navigate("StockManagerHome");
             break;
           default:
-            navigation.navigate("Home");
+            navigation.navigate("BusinessOwnerHomeScreen");
             break;
         }
       } else {
@@ -76,9 +76,9 @@ export default function LoginScreen({ navigation }) {
                 autoCorrect={false}
                 clearButtonMode="while-editing"
                 keyboardType="email-address"
-                onChangeText={setEmail}
-                value={email}
-                placeholder="josue@gmail.com"
+                onChangeText={setUserName}
+                value={username}
+                placeholder="Enter your username "
                 placeholderTextColor="#6b7280"
                 style={styles.inputControl}
               />

@@ -8,9 +8,11 @@ from .models import CustomUser
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'user_type']
+        fields = ['id', 'username', 'email','password','user_type']
 
 class RegisterSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(max_length=40)
+    email =serializers.CharField(max_length=20)
     password = serializers.CharField(write_only=True)
     user_type = serializers.ChoiceField(choices=CustomUser.USER_TYPE_CHOICES)
 

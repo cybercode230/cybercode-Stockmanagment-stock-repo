@@ -1,0 +1,21 @@
+[
+ {
+  "id": "1",
+  "name": "stock total",
+  "amount": "200,000.95",
+  "percentage": "95"
+ },
+ {
+  "id": "2",
+  "name": "bags",
+  "amount": "300.55",
+  "percentage": "19"
+ },
+  {
+  "id": "3",
+  "name": "Ropes",
+  "amount": "955.75",
+  "percentage": "61"
+ }
+ 
+]

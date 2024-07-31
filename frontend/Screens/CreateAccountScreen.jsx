@@ -17,6 +17,7 @@ import { Picker } from "@react-native-picker/picker";
 
 export default function CreateAccountScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
+  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("business_owner");
@@ -26,9 +27,10 @@ export default function CreateAccountScreen({ navigation }) {
     setLoading(true);
     try {
      const registerResponse = await axios.post(
-       "http://192.168.1.2:8000/auth/register/",
+       "http://192.168.1.2:8000/auth/users/",
        {
          email,
+         username,
          password,
          user_type: userType,
        }
@@ -49,7 +51,7 @@ export default function CreateAccountScreen({ navigation }) {
 
   const login = async () => {
     setLoading(true);
-    const result = await onLogin(email, password);
+    const result = await onLogin(username, password);
     setLoading(false);
     if (result && result.error) {
       alert(result.msg);
@@ -71,15 +73,11 @@ export default function CreateAccountScreen({ navigation }) {
             />
             <Text style={styles.title}>
               Create a{" "}
-              <Text
-                style={{ color: "#C500B1", fontSize: 30, fontWeight: "800" }}>
-                SMP
-              </Text>{" "}
-              <Text style={{alignItems:'center', justifyContent:'center'}}>Account</Text>
+              <Text style={{ alignItems: "center", justifyContent: "center" }}>
+                Account
+              </Text>
             </Text>
-            <Text style={styles.subtitle}>
-              Join us to manage your portfolio and more
-            </Text>
+            <Text style={styles.subtitle}>Join us to manage your stock</Text>
           </View>
 
           <View style={styles.form}>
@@ -97,7 +95,20 @@ export default function CreateAccountScreen({ navigation }) {
                 style={styles.inputControl}
               />
             </View>
-
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Username</Text>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                // keyboardType="email-address"
+                onChangeText={setUserName}
+                value={username}
+                placeholder="Enter your username"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+              />
+            </View>
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Password</Text>
               <TextInput
@@ -159,7 +170,8 @@ export default function CreateAccountScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 24,
+    paddingVertical: 0,
+    marginTop:-20,
     paddingHorizontal: 0,
     flexGrow: 1,
     flexShrink: 1,
@@ -170,7 +182,8 @@ const styles = StyleSheet.create({
     fontSize: 31,
     fontWeight: "700",
     color: "#d9d9d9",
-    marginBottom: 6,
+    marginBottom: 1,
+    marginTop:-5,
   },
   subtitle: {
     fontSize: 15,

@@ -39,7 +39,7 @@ const AppNavigator = () => {
                 headerRight: () => (
                   <Button
                     onPress={onLogout}
-                    title="Sign Out"
+                    title="Sign Out"ggoogoogle
                   />
                 ),
               }}
@@ -82,3 +82,7 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+
+
+
